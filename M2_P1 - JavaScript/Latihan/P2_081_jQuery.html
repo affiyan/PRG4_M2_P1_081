@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>P2_081_jQuery</title>
+    <!-- Menggunakan Google Fonts untuk mengimpor font Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <style>
+        /* Menggunakan font Poppins untuk semua elemen dalam body */
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Menggunakan font Poppins untuk combo (select) */
+        select {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Menggunakan font Poppins untuk tombol (button) */
+        button {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Menggunakan font Poppins untuk input teks (text) */
+        input[type="text"] {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="header1">P2_081_jQuery</div>
+
+    <form onsubmit="return validate()">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Nama</td>
+                    <td>:</td>
+                    <td>
+                        <input id="nama" type="text" maxlength="20">
+                    </td>
+                    <td id="error_nama" style="color:red;"></td>
+                </tr>
+                <tr>
+                    <td>Mata Kuliah</td>
+                    <td>:</td>
+                    <td>
+                        <select id="matakuliah">
+                            <option value="">Pilih Mata Kuliah</option>
+                            <option value="Matematika">Matematika</option>
+                            <option value="Fisika">Fisika</option>
+                            <option value="Kimia">Kimia</option>
+                        </select>
+                    </td>
+                    <td id="error_matakuliah" style="color:red;"></td>
+                </tr>
+                <tr>
+                    <td>Nilai</td>
+                    <td>:</td>
+                    <td>
+                        <input id="nilai" type="number" min="0" max="100">
+                    </td>
+                    <td id="error_nilai" style="color:red;"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="reset" id="batal">Batal</button> <!-- Menggunakan type="reset" untuk mereset form -->
+                    </td>
+                    <td></td>
+                    <td><button type="submit" id="kirim">Kirim</button></td> <!-- Menggunakan type="submit" untuk tombol Kirim -->
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#kirim").click(function () {
+                let nama = $("#nama").val();
+                let matakuliah = $("#matakuliah").val();
+                let nilai = $("#nilai").val();
+                let validate = true;
+                const regex = /^[a-zA-Z ]*$/;
+
+                // Validasi nama
+                if (nama.trim() === "") {
+                    $("#error_nama").html("Harap isi field Nama!");
+                    validate = false;
+                } else if (nama.length > 20) {
+                    $("#error_nama").html("Nama tidak boleh berisi lebih dari 20 karakter!");
+                    validate = false;
+                } else if (!regex.test(nama)) {
+                    $("#error_nama").html("Nama harus berisi huruf dan spasi!");
+                    validate = false;
+                } else {
+                    $("#error_nama").html("");
+                }
+
+                // Validasi mata kuliah
+                if (matakuliah === "") {
+                    $("#error_matakuliah").html("Harap pilih Mata Kuliah!");
+                    validate = false;
+                } else {
+                    $("#error_matakuliah").html("");
+                }
+
+                // Validasi nilai
+                if (nilai === "") {
+                    $("#error_nilai").html("Harap isi field Nilai!");
+                    validate = false;
+                } else if (nilai < 0 || nilai > 100) {
+                    $("#error_nilai").html("Nilai harus antara 0 dan 100!");
+                    validate = false;
+                } else {
+                    $("#error_nilai").html("");
+                }
+
+                return validate;
+            });
+
+            $("#batal").click(function () {
+                // Menghapus pesan kesalahan dan mereset form
+                $("#error_nama").html("");
+                $("#error_matakuliah").html("");
+                $("#error_nilai").html("");
+                $("#nama").val("");             // Mereset nilai input nama
+                $("#matakuliah").val("");       // Mereset nilai select matakuliah
+                $("#nilai").val("");            // Mereset nilai input nilai
+            });
+        });
+    </script>
+</body>
+</html>
